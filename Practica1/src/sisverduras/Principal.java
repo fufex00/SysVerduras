@@ -19,7 +19,7 @@ import objectos.Producto;
  */
 public class Principal {
 
-    static Producto listaProductos[] = new Producto[10];
+      static Producto listaProductos[] = new Producto[10];
     static int k = 0;
 
     public static void main(String[] args) throws IOException {
@@ -39,9 +39,9 @@ public class Principal {
             System.out.println("Codigo: " + listaProductos[i].getCodigo());
             System.out.println("Nombre: " + listaProductos[i].getNombre());
             System.out.println("Precio: " + listaProductos[i].getPrecio());
-            System.out.println("Categoría: "+ listaProductos[i].getCategoria());
-            System.out.println("Fecha Vencimiento: "+ 
-                    listaProductos[i].getFechaVencimiento());
+            System.out.println("Categoría: " + listaProductos[i].getCategoria());
+            System.out.println("Fecha Vencimiento: "
+                    + listaProductos[i].getFechaVencimiento());
             System.out.println("......................");
         }
     }
@@ -66,7 +66,6 @@ public class Principal {
 
         }
 
-        
     }
 
     private static void menuProductos() throws IOException {
@@ -78,14 +77,30 @@ public class Principal {
         System.out.println("5. Regresar al Menú Principal");
         System.out.println("");
         System.out.println("Ingrese una opción");
-        
+
         BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
         String lee = lector.readLine();
-       
+
         switch (lee) {
             case "1": {
                 listaProductos[k] = crearProducto();
                 k++;
+                menuProductos();
+                break;
+            }
+            case "2": {
+                BufferedReader ingresa = new BufferedReader(new InputStreamReader(System.in));
+                System.out.println("Editar Producto");
+                System.out.println("");
+                System.out.println("Ingrese el código del producto:");
+                Producto producto = buscarProducto(Integer.parseInt(ingresa.readLine()));
+                if (producto != null) {
+                    editarProducto(producto);
+                }else{
+                    System.out.println("El producto no ha sido encontrado");
+                }
+                
+                
                 menuProductos();
                 break;
             }
@@ -95,7 +110,7 @@ public class Principal {
                 break;
             }
 
-              case "5": {             
+            case "5": {
                 menu();
                 break;
             }
@@ -118,6 +133,25 @@ public class Principal {
         System.out.println("Categoría: ");
         nuevo.setCategoria(lector.readLine());
         return nuevo;
+    }
+
+    private static Producto buscarProducto(int cod) {
+
+        for (int i = 0; i < k; i++) {
+            if (cod == listaProductos[i].getCodigo()) {
+                Producto encontrado;
+                encontrado = listaProductos[i];
+                return encontrado;
+            }
+        }
+
+        return null;
+    }
+
+    private static void editarProducto(Producto producto) {
+
+        System.out.println("Que datos va a cambiar");
+
     }
 
 }
