@@ -15,7 +15,7 @@ public class Cliente extends Persona {
         
     }
     public Cliente(boolean credito, int limiteCredito, int plazo,
-        String numeroCuenta, String id, String name) {
+        String numeroCuenta, int id, String name) {
         super(id, name);
         this.credito = credito;
         this.limiteCredito = limiteCredito;
