@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.Scanner;
+import objectos.Cliente;
+import objectos.Persona;
 import objectos.Producto;
 
 /**
@@ -19,19 +21,14 @@ import objectos.Producto;
  */
 public class Principal {
 
-      static Producto listaProductos[] = new Producto[10];
+    static Producto listaProductos[] = new Producto[10];
+    static Cliente listaClientes[] = new Cliente[15];
     static int k = 0;
 
     public static void main(String[] args) throws IOException {
 
         menu();
 
-    }
-
-    private static void imprimirProductos(Producto producto) {
-        System.out.println("Codigo: " + producto.getCodigo());
-        System.out.println("Nombre: " + producto.getNombre());
-        System.out.println("Precio: " + producto.getPrecio());
     }
 
     private static void imprimirListaProductos() {
@@ -62,6 +59,13 @@ public class Principal {
             case "1": {
                 menuProductos();
                 break;
+            }
+            case "2": {
+                menuCliente();
+                break;
+            }
+            case "3": {
+                System.exit(0);
             }
 
         }
@@ -96,11 +100,10 @@ public class Principal {
                 Producto producto = buscarProducto(Integer.parseInt(ingresa.readLine()));
                 if (producto != null) {
                     editarProducto(producto);
-                }else{
+                } else {
                     System.out.println("El producto no ha sido encontrado");
                 }
-                
-                
+
                 menuProductos();
                 break;
             }
@@ -152,6 +155,115 @@ public class Principal {
 
         System.out.println("Que datos va a cambiar");
 
+    }
+
+    private static void menuCliente() throws IOException {
+        System.out.println("Módulo de Clientes");
+        System.out.println("\n1. Añadir Cliente");
+        System.out.println("2. Editar Cliente");
+        System.out.println("3. Eliminar Cliente");
+        System.out.println("4. Ver Lista de Clientes");
+        System.out.println("5. Regresar al Menú Principal");
+        System.out.println("");
+        System.out.println("Ingrese una opción");
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String selection = br.readLine();
+
+        switch (selection) {
+            case "1":
+                listaClientes[k] = (Cliente) crearCliente();
+                k++;
+                menuCliente();
+                break;
+            case "2": {
+                System.out.println("Editar Cliente");
+                System.out.println("");
+                System.out.println("Ingrese el ID del cliente:");
+                Cliente client = buscarCliente(br.readLine());
+                if (client != null) {
+                    editarCliente(client);
+                } else {
+                    System.out.println("El cliente no ha sido encontrado");
+                }
+
+                menuCliente();
+                break;
+            }
+            case "4" : {
+                imprimirListaClientes();
+                menuCliente();
+                break;
+            }
+            case "5": {
+                menu();
+                break;
+            }
+
+        }
+    }
+
+    private static Persona crearCliente() throws IOException {
+        Cliente client = new Cliente();
+        BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Cedula: ");
+        String id = lector.readLine();
+        client.setId(id);
+        System.out.println("Nombre: ");
+        String name = lector.readLine();
+        client.setName(name);
+        System.out.println("Posee Credito? ");
+        System.out.println("1: Si\n2: No ");
+        String credit = lector.readLine();
+        if (credit == "1") {
+            client.isCredito();
+        } else {
+
+        }
+        System.out.println("Cuánto es el limite de credito? ");
+        String limit = lector.readLine();
+        client.setLimiteCredito(Integer.parseInt(limit));
+        System.out.println("Cuanto es el plazo de tiempo para cancelar la "
+                + "deuda? ");
+        String debttTime = lector.readLine();
+        client.setPlazo(Integer.parseInt(debttTime));
+        System.out.println("Digite el numero de cuenta del Cliente ");
+        String account = lector.readLine();
+        client.setNumeroCuenta(account);
+
+        return client;
+
+    }
+
+    private static void editarCliente(Cliente client) {
+
+        System.out.println("Que datos va a cambiar");
+
+    }
+
+    private static Cliente buscarCliente(String cod) {
+
+        for (int i = 0; i < k; i++) {
+            if (cod == listaClientes[i].getId()) {
+                Cliente found;
+                found = listaClientes[i];
+                return found;
+            }
+        }
+
+        return null;
+    }
+    
+    private static void imprimirListaClientes() {
+        for (int i = 0; i < k; i++) {
+            System.out.println("ID: " + listaClientes[i].getId());
+            System.out.println("Nombre: " + listaClientes[i].getName());
+            System.out.println("Credito: " + listaClientes[i].isCredito());
+            System.out.println("Limite de Credito: " + listaClientes[i].getLimiteCredito());
+            System.out.println("Plazo: " + listaClientes[i].getPlazo());
+            System.out.println("Numero de Cuenta: " + listaClientes[i].getNumeroCuenta());
+            System.out.println("......................");
+        }
     }
 
 }
