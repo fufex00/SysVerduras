@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import objectos.Cliente;
 import objectos.Persona;
 import objectos.Producto;
@@ -21,6 +23,7 @@ import objectos.Producto;
  */
 public class Principal {
 
+    public static BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
     static Producto listaProductos[] = new Producto[10];
     static Cliente listaClientes[] = new Cliente[15];
     static int k = 0;
@@ -180,7 +183,7 @@ public class Principal {
                 System.out.println("Editar Cliente");
                 System.out.println("");
                 System.out.println("Ingrese el ID del cliente:");
-                Cliente client = buscarCliente(br.readLine());
+                Cliente client = buscarCliente(Integer.parseInt(br.readLine()));
                 if (client != null) {
                     editarCliente(client);
                 } else {
@@ -190,7 +193,7 @@ public class Principal {
                 menuCliente();
                 break;
             }
-            case "4" : {
+            case "4": {
                 imprimirListaClientes();
                 menuCliente();
                 break;
@@ -205,21 +208,13 @@ public class Principal {
 
     private static Persona crearCliente() throws IOException {
         Cliente client = new Cliente();
-        BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Cedula: ");
-        String id = lector.readLine();
+        int id = Integer.parseInt(lector.readLine());
         client.setId(id);
         System.out.println("Nombre: ");
         String name = lector.readLine();
         client.setName(name);
-        System.out.println("Posee Credito? ");
-        System.out.println("1: Si\n2: No ");
-        String credit = lector.readLine();
-        if (credit == "1") {
-            client.isCredito();
-        } else {
-
-        }
+        client.setCredito(asignarCredito());
         System.out.println("Cuánto es el limite de credito? ");
         String limit = lector.readLine();
         client.setLimiteCredito(Integer.parseInt(limit));
@@ -241,7 +236,7 @@ public class Principal {
 
     }
 
-    private static Cliente buscarCliente(String cod) {
+    private static Cliente buscarCliente(int cod) {
 
         for (int i = 0; i < k; i++) {
             if (cod == listaClientes[i].getId()) {
@@ -253,7 +248,7 @@ public class Principal {
 
         return null;
     }
-    
+
     private static void imprimirListaClientes() {
         for (int i = 0; i < k; i++) {
             System.out.println("ID: " + listaClientes[i].getId());
@@ -264,6 +259,33 @@ public class Principal {
             System.out.println("Numero de Cuenta: " + listaClientes[i].getNumeroCuenta());
             System.out.println("......................");
         }
+    }
+
+    private static boolean asignarCredito() {
+        System.out.println("Posee Credito? ");
+        System.out.println("1: Si\n2: No ");
+        boolean credito = false;
+        int credit;
+        try {
+            credit = Integer.parseInt(lector.readLine());
+            switch (credit) {
+                case 1:
+                    credito = true;
+                    break;
+                case 2:
+                    credito = false;
+                    break;
+                default:
+                    System.out.println("Esta opcion no existe.");
+                    asignarCredito();
+                    break;
+            }
+        } catch (IOException ex) {
+            System.out.println("Escoja la opcion utilizando numeros.");
+            asignarCredito();
+        }
+        return credito;
+
     }
 
 }
