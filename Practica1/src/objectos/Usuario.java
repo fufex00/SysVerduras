@@ -6,7 +6,7 @@ public class Usuario extends Persona {
 
     private String password;
 
-    public Usuario(String id, String name) {
+    public Usuario(int id, String name) {
         super(id, name);
     }
 }
