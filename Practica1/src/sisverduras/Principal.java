@@ -193,6 +193,10 @@ public class Principal {
                 menuCliente();
                 break;
             }
+            case "3" : {
+                eliminarCliente();
+                break;
+            }
             case "4": {
                 imprimirListaClientes();
                 menuCliente();
@@ -214,6 +218,7 @@ public class Principal {
         System.out.println("Nombre: ");
         String name = lector.readLine();
         client.setName(name);
+        System.out.println("Posee credito \n1: Si\n2: No ");
         client.setCredito(asignarCredito());
         System.out.println("Cuánto es el limite de credito? ");
         String limit = lector.readLine();
@@ -230,10 +235,49 @@ public class Principal {
 
     }
 
-    private static void editarCliente(Cliente client) {
+    private static void editarCliente(Cliente client) throws IOException {
+        BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.println("Que datos va a cambiar");
-
+        System.out.println("¿Qué datos va a cambiar?");
+        System.out.println("1. para la cedula");
+        System.out.println("2. para el nombre");
+        System.out.println("3. para el credito");
+        String eleccion = lector.readLine();
+        switch (eleccion) {
+            case "1":
+                System.out.println("Digite la cedula para corregir: ");
+                int cedula = Integer.parseInt(lector.readLine());
+                client.setId(cedula);
+                break;
+            case "2":
+                System.out.println("Digite el nombre a corregir:");
+                String nombre = lector.readLine();
+                client.setName(nombre);
+                break;
+            case "3":
+                System.out.println("Posee credito:");
+                System.out.println("1: Si\n2: No ");
+                client.setCredito(asignarCredito());
+                System.out.println("Cuanto es el plazo de tiempo para cancelar la "
+                        + "deuda? ");
+                String tiempoLimite = lector.readLine();
+                client.setPlazo(Integer.parseInt(tiempoLimite));
+                System.out.println("Digite el numero de cuenta del Cliente ");
+                String cuenta = lector.readLine();
+                client.setNumeroCuenta(cuenta);
+                break;
+        }
+        System.out.println("Si desea volver al menu principal digite: 1, si "
+                + "desea volver al menu de clientes presione: 2");
+        int p = Integer.parseInt(lector.readLine());
+        if(p==1)
+        {
+        menu();    
+        }
+        else
+        {
+        menuCliente();    
+        }
     }
 
     private static Cliente buscarCliente(int cod) {
@@ -287,5 +331,11 @@ public class Principal {
         return credito;
 
     }
+
+    private static void eliminarCliente() {
+        
+    }
+    
+    
 
 }
