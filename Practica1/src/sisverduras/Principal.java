@@ -7,12 +7,8 @@ package sisverduras;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import objectos.Cliente;
 import objectos.Persona;
 import objectos.Producto;
@@ -193,7 +189,7 @@ public class Principal {
                 menuCliente();
                 break;
             }
-            case "3" : {
+            case "3": {
                 eliminarCliente();
                 break;
             }
@@ -270,13 +266,10 @@ public class Principal {
         System.out.println("Si desea volver al menu principal digite: 1, si "
                 + "desea volver al menu de clientes presione: 2");
         int p = Integer.parseInt(lector.readLine());
-        if(p==1)
-        {
-        menu();    
-        }
-        else
-        {
-        menuCliente();    
+        if (p == 1) {
+            menu();
+        } else {
+            menuCliente();
         }
     }
 
@@ -332,10 +325,18 @@ public class Principal {
 
     }
 
-    private static void eliminarCliente() {
-        
+    private static void eliminarCliente() throws IOException {
+        for (int i = 0; i < k; i++) {
+            System.out.print("Posicion: " + i + " ID: " + listaClientes[i].getId());
+            System.out.println(" Nombre: " + listaClientes[i].getName());
+            System.out.println("\nIngrese la posicion del cliente que desea eliminar: ");
+            int position = Integer.parseInt(lector.readLine());
+            listaClientes[position] = new Cliente();
+            menuCliente();
+        }
+
     }
-    
+
     
 
 }
